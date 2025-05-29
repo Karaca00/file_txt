@@ -1,0 +1,50 @@
+@echo off
+title Function cmd
+echo.
+echo Warning : Please use with caution.
+echo.
+echo y : yes delete all temp file.
+echo n : cancel delete.
+echo t : open temp folder.
+echo l : clear log.
+echo c : close.
+echo.
+set /p confirm="Choose what you want? (y/n/t/l/c): "
+
+set "LOG_FILE=Log.txt"
+set "LOG_PATH=%~dp0"
+set "FULL_LOG_PATH=%LOG_PATH%%LOG_FILE%"
+
+if /i "%confirm%" equ "y" (
+    cd /d %temp%
+    echo Deleted...
+    echo %date% %time% >> "%FULL_LOG_PATH%"
+    del /f /q *.* >> "%FULL_LOG_PATH%"
+    for /d %%x in (*) do rmdir /s /q "%%x"
+    echo.
+    cls
+    color 2
+    echo Clear Success!
+)
+if /i "%confirm%" equ "n" (
+     cls
+     color 4
+     echo Cancel Clear Log.
+)
+if /i "%confirm%" equ "t" (
+     start %temp%
+     cls
+     color 6
+     echo Open The Temp Folder.
+)
+if /i "%confirm%" equ "c" (
+     timeout /t 5
+     exit
+)
+if /i "%confirm%" equ "l" (
+     echo. > "%FULL_LOG_PATH%"
+)
+echo.
+timeout /t 5
+start "" "%~dpnx0" RESTART
+exit
