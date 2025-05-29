@@ -44,7 +44,6 @@ if /i "%confirm%" equ "t" (
      echo Open The Temp Folder.
 )
 if /i "%confirm%" equ "c" (
-     timeout /t 5
      exit
 )
 if /i "%confirm%" equ "l" (
