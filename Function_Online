@@ -15,12 +15,18 @@ set "LOG_FILE=Log.txt"
 set "LOG_PATH=%~dp0"
 set "FULL_LOG_PATH=%LOG_PATH%%LOG_FILE%"
 
+set "SCRIPT_NAME=Function.bat" REM <--- ชื่อไฟล์สคริปต์ของคุณ (ห้ามลบตัวเอง)
+set "LOG_FILE_NAME=Log.txt" REM <--- ชื่อไฟล์ Log ที่คุณต้องการเก็บ
+
 if /i "%confirm%" equ "y" (
     cd /d %temp%
     echo Deleted...
     echo %date% %time% >> "%FULL_LOG_PATH%"
-    del /f /q *.* >> "%FULL_LOG_PATH%"
-    for /d %%x in (*) do rmdir /s /q "%%x"
+    for %%f in (%temp%) do (
+        echo Deleted : "%%f"
+        del /f /q "%%f" >> "%FULL_LOG_PATH%"
+    )
+    for /d %%x in (%temp%) do rmdir /s /q "%%x"
     echo.
     cls
     color 2
