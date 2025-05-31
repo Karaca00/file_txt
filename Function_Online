@@ -3,22 +3,24 @@ title Function cmd
 echo.
 echo Warning : Please use with caution.
 echo.
-echo y : yes delete all temp file.
-echo n : cancel delete.
-echo t : open temp folder.
-echo l : clear log.
-echo c : close.
+echo /y : delete all temp file.
+echo /n : cancel delete.
 echo.
-set /p confirm="Choose what you want? (y/n/t/l/c): "
+echo /o : open temp folder.
+echo /cl : clear log.
+echo /l : list temp file.
+echo /c : close cmd.
+echo.
+set /p confirm="Choose what you want? : "
 
 set "LOG_FILE=Log.txt"
 set "LOG_PATH=%~dp0"
 set "FULL_LOG_PATH=%LOG_PATH%%LOG_FILE%"
 
-set "SCRIPT_NAME=Function.bat" REM <--- ชื่อไฟล์สคริปต์ของคุณ (ห้ามลบตัวเอง)
-set "LOG_FILE_NAME=Log.txt" REM <--- ชื่อไฟล์ Log ที่คุณต้องการเก็บ
+set "SCRIPT_NAME=Function.bat"
+set "LOG_FILE_NAME=Log.txt"
 
-if /i "%confirm%" equ "y" (
+if /i "%confirm%" equ "/y" (
     cd /d %temp%
     echo Deleted...
     echo %date% %time% >> "%FULL_LOG_PATH%"
@@ -32,24 +34,39 @@ if /i "%confirm%" equ "y" (
     color 2
     echo Clear Success!
 )
-if /i "%confirm%" equ "n" (
-     cls
-     color 4
-     echo Cancel Clear Log.
+if /i "%confirm%" equ "/n" (
+    cls
+    color 4
+    echo Cancel Clear Temp.
 )
-if /i "%confirm%" equ "t" (
-     start %temp%
-     cls
-     color 6
-     echo Open The Temp Folder.
+
+if /i "%confirm%" equ "/o" (
+    start %temp%
+    cls
+    color 6
+    echo Open The Temp Folder.
 )
-if /i "%confirm%" equ "c" (
-     exit
+if /i "%confirm%" equ "/c" (
+    exit
 )
-if /i "%confirm%" equ "l" (
-     echo. > "%FULL_LOG_PATH%"
+if /i "%confirm%" equ "/cl" (
+    cls
+    echo. > "%FULL_LOG_PATH%"
+)
+if /i "%confirm%" equ "/l" (
+    cls
+    echo.
+    echo All File :
+    dir %temp% /a-d /b
+    echo.
+    echo All Folder :
+    dir %temp% /ad /b
+    echo.
+    echo All And Size :
+    dir /a %temp%
+    echo.
 )
 echo.
-timeout /t 5
+pause
 start "" "%~dpnx0" RESTART
 exit
