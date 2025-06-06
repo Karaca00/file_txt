@@ -1,15 +1,19 @@
 @echo off
-title Function cmd
+title K Function cmd
+echo By Karaca
 echo.
 echo Warning : Please use with caution.
 echo.
-echo /y : delete all temp file.
-echo /n : cancel delete.
+echo Opstion :
 echo.
-echo /o : open temp folder.
-echo /cl : clear log.
-echo /l : list temp file.
-echo /c : close cmd.
+echo 1 : delete all temp file.
+echo 2 : cancel delete.
+echo.
+echo 3 : open temp folder.
+echo 4 : open log.
+echo 5 : clear log.
+echo 6 : list temp file.
+echo 7 : close cmd.
 echo.
 set /p confirm="Choose what you want? : "
 
@@ -17,10 +21,8 @@ set "LOG_FILE=Log.txt"
 set "LOG_PATH=%~dp0"
 set "FULL_LOG_PATH=%LOG_PATH%%LOG_FILE%"
 
-set "SCRIPT_NAME=Function.bat"
-set "LOG_FILE_NAME=Log.txt"
-
-if /i "%confirm%" equ "/y" (
+if /i "%confirm%" equ "1" (
+    cls
     cd /d %temp%
     echo Deleted...
     echo %date% %time% >> "%FULL_LOG_PATH%"
@@ -30,30 +32,30 @@ if /i "%confirm%" equ "/y" (
     )
     for /d %%x in (%temp%) do rmdir /s /q "%%x"
     echo.
-    cls
     color 2
     echo Clear Success!
 )
-if /i "%confirm%" equ "/n" (
+if /i "%confirm%" equ "2" (
     cls
     color 4
     echo Cancel Clear Temp.
 )
 
-if /i "%confirm%" equ "/o" (
+if /i "%confirm%" equ "3" (
     start %temp%
     cls
     color 6
     echo Open The Temp Folder.
 )
-if /i "%confirm%" equ "/c" (
+if /i "%confirm%" equ "7" (
     exit
 )
-if /i "%confirm%" equ "/cl" (
+if /i "%confirm%" equ "5" (
     cls
+    echo Clear Log Success.
     echo. > "%FULL_LOG_PATH%"
 )
-if /i "%confirm%" equ "/l" (
+if /i "%confirm%" equ "6" (
     cls
     echo.
     echo All File :
@@ -65,6 +67,10 @@ if /i "%confirm%" equ "/l" (
     echo All And Size :
     dir /a %temp%
     echo.
+)
+if /i "%confirm%" equ "4" (
+    cls
+    start Log.txt
 )
 echo.
 pause
